@@ -10,7 +10,7 @@ A Spring Boot application for logging books you’ve read, including title, auth
 - Clean, modern web interface
 - RESTful API for integration
 
-##Setup and Structure - Local Development
+## Setup and Structure - Local Development
 - pom.xml (Maven dependencies)
 
 - src/main/java/com/booklog/booklog/ (Java source files)
@@ -19,7 +19,7 @@ A Spring Boot application for logging books you’ve read, including title, auth
 
 - src/main/resources/application.properties (Configuration)
 
-##Build and Run
+## Build and Run
 - Make sure to have: Java 17+, Maven 3.8+
 - Build the Project: mvn clean install
 - Run using Maven: mvn spring-boot:run
