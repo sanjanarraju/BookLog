@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>BookLog</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            margin: 0; padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        #book-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        #book-form input, #book-form textarea, #book-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        #book-form button {
+            background: #4f8cff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+        #book-form button:hover {
+            background: #3461c1;
+        }
+        #books-list {
+            max-width: 700px;
+            margin: 40px auto;
+        }
+        .book-item {
+            background: white;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .book-details {
+            max-width: 85%;
+        }
+        .book-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0;
+            color: #2c3e50;
+        }
+        .book-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 6px 0 0 0;
+        }
+        .book-notes {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+        .delete-btn {
+            background: #ff4d4f;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .delete-btn:hover {
+            background: #d9363e;
+        }
+    </style>
+</head>
+<body>
+<h1>BookLog</h1>
+
+<form id="book-form">
+    <input type="text" id="title" placeholder="Title" required />
+    <input type="text" id="author" placeholder="Author" required />
+    <input type="text" id="genre" placeholder="Genre" />
+    <select id="rating" required>
+        <option value="">Rating (out of 5)</option>
+        <option value="1">1 - Poor</option>
+        <option value="2">2 - Fair</option>
+        <option value="3">3 - Good</option>
+        <option value="4">4 - Very Good</option>
+        <option value="5">5 - Excellent</option>
+    </select>
+    <textarea id="notes" placeholder="Notes"></textarea>
+    <button type="submit">Add Book</button>
+</form>
+
+<div id="books-list"></div>
+
+<script>
+    const form = document.getElementById('book-form');
+    const booksList = document.getElementById('books-list');
+
+    async function fetchBooks() {
+        const res = await fetch('/api/books');
+        const books = await res.json();
+        renderBooks(books);
+    }
+
+    function renderBooks(books) {
+        booksList.innerHTML = '';
+        books.forEach(book => {
+            const div = document.createElement('div');
+            div.className = 'book-item';
+            div.innerHTML = `
+          <div class="book-details">
+            <p class="book-title">${book.title}</p>
+            <p class="book-meta">Author: ${book.author} | Genre: ${book.genre || 'N/A'} | Rating: ${book.rating}/5</p>
+            <p class="book-notes">${book.notes || ''}</p>
+          </div>
+          <button class="delete-btn" data-id="${book.id}">Delete</button>
+        `;
+            booksList.appendChild(div);
+        });
+        attachDeleteHandlers();
+    }
+
+    function attachDeleteHandlers() {
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = async () => {
+                const id = btn.getAttribute('data-id');
+                await fetch(`/api/books/${id}`, { method: 'DELETE' });
+                fetchBooks();
+            };
+        });
+    }
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const book = {
+            title: form.title.value.trim(),
+            author: form.author.value.trim(),
+            genre: form.genre.value.trim(),
+            rating: parseInt(form.rating.value),
+            notes: form.notes.value.trim()
+        };
+        if (!book.title || !book.author || !book.rating) {
+            alert('Please fill in required fields.');
+            return;
+        }
+        await fetch('/api/books', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(book)
+        });
+        form.reset();
+        fetchBooks();
+    };
+
+    // Initial load
+    fetchBooks();
+</script>
+</body>
+</html>
