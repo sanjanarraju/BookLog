@@ -7,67 +7,117 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f0f4f8;
-            margin: 0; padding: 20px;
+            margin: 0;
+            padding: 20px;
             color: #333;
         }
         h1 {
             text-align: center;
             color: #2c3e50;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
         }
-        #book-form {
-            max-width: 600px;
-            margin: 20px auto;
+        .section {
+            max-width: 800px;
+            margin: 30px auto 0 auto;
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        #book-form input, #book-form textarea, #book-form select {
-            width: 100%;
+        /* Pretty Add Series Form */
+        .pretty-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: #f8fafc;
+            padding: 14px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.06);
+        }
+        #series-form input[type="text"] {
+            flex: 1;
             padding: 10px;
-            margin: 8px 0;
+            border: 1.5px solid #4f8cff;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        #series-form input[type="text"]:focus {
+            border-color: #3461c1;
+            outline: none;
+        }
+        .main-btn {
+            background: linear-gradient(90deg, #4f8cff 60%, #3461c1 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+        }
+        .main-btn:hover {
+            background: linear-gradient(90deg, #3461c1 60%, #4f8cff 100%);
+        }
+        /* Book Form */
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        #book-form input,
+        #book-form textarea,
+        #book-form select {
+            width: 100%;
+            padding: 9px;
+            margin: 7px 0;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 1rem;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        #book-form input:focus,
+        #book-form textarea:focus,
+        #book-form select:focus {
+            border-color: #4f8cff;
+            outline: none;
         }
         #book-form button {
-            background: #4f8cff;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s ease;
+            margin-top: 5px;
         }
-        #book-form button:hover {
-            background: #3461c1;
-        }
-        #books-list {
-            max-width: 700px;
-            margin: 40px auto;
+        /* Book List */
+        .series-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 30px 0 10px 0;
+            color: #4f8cff;
         }
         .book-item {
-            background: white;
-            padding: 15px 20px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: #f8fafc;
+            padding: 13px 18px;
+            margin-bottom: 10px;
+            border-radius: 7px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 1px 4px rgba(79,140,255,0.04);
         }
         .book-details {
             max-width: 85%;
         }
         .book-title {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.12rem;
             margin: 0;
             color: #2c3e50;
         }
         .book-meta {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: #666;
             margin: 6px 0 0 0;
         }
@@ -80,41 +130,100 @@
             background: #ff4d4f;
             border: none;
             color: white;
-            padding: 8px 12px;
+            padding: 7px 13px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.3s ease;
+            transition: background 0.3s;
         }
         .delete-btn:hover {
             background: #d9363e;
+        }
+        .series-dropdown {
+            width: 100%;
+        }
+        .standalone-header {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 35px 0 10px 0;
+            color: #2c3e50;
+        }
+        @media (max-width: 600px) {
+            .section {
+                padding: 10px;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .pretty-form {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+                padding: 10px 8px;
+            }
         }
     </style>
 </head>
 <body>
 <h1>BookLog</h1>
 
-<form id="book-form">
-    <input type="text" id="title" placeholder="Title" required />
-    <input type="text" id="author" placeholder="Author" required />
-    <input type="text" id="genre" placeholder="Genre" />
-    <select id="rating" required>
-        <option value="">Rating (out of 5)</option>
-        <option value="1">1 - Poor</option>
-        <option value="2">2 - Fair</option>
-        <option value="3">3 - Good</option>
-        <option value="4">4 - Very Good</option>
-        <option value="5">5 - Excellent</option>
-    </select>
-    <textarea id="notes" placeholder="Notes"></textarea>
-    <button type="submit">Add Book</button>
-</form>
+<div class="section">
+    <form id="series-form" class="pretty-form">
+        <input type="text" id="series-name" placeholder="Add new series..." required />
+        <button type="submit" class="main-btn">Add Series</button>
+    </form>
 
-<div id="books-list"></div>
+    <form id="book-form">
+        <div class="form-row">
+            <input type="text" id="title" placeholder="Title" required />
+            <input type="text" id="author" placeholder="Author" required />
+            <input type="text" id="genre" placeholder="Genre" />
+        </div>
+        <div class="form-row">
+            <select id="rating" required>
+                <option value="">Rating (out of 5)</option>
+                <option value="1">1 - Poor</option>
+                <option value="2">2 - Fair</option>
+                <option value="3">3 - Good</option>
+                <option value="4">4 - Very Good</option>
+                <option value="5">5 - Excellent</option>
+            </select>
+            <select id="series-dropdown" class="series-dropdown">
+                <option value="">Standalone</option>
+            </select>
+            <input type="number" id="series-order" min="1" placeholder="Book # in Series" style="width: 110px;" />
+        </div>
+        <textarea id="notes" placeholder="Notes"></textarea>
+        <button type="submit" class="main-btn">Add Book</button>
+    </form>
+</div>
+
+<div class="section" id="books-list"></div>
 
 <script>
     const form = document.getElementById('book-form');
     const booksList = document.getElementById('books-list');
+    const seriesForm = document.getElementById('series-form');
+    const seriesDropdown = document.getElementById('series-dropdown');
+    const seriesOrderInput = document.getElementById('series-order');
+
+    let seriesList = [];
+
+    async function fetchSeries() {
+        const res = await fetch('/api/series');
+        seriesList = await res.json();
+        renderSeriesDropdown();
+    }
+
+    function renderSeriesDropdown() {
+        seriesDropdown.innerHTML = '<option value="">Standalone</option>';
+        seriesList.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            opt.textContent = s.name;
+            seriesDropdown.appendChild(opt);
+        });
+    }
 
     async function fetchBooks() {
         const res = await fetch('/api/books');
@@ -123,31 +232,61 @@
     }
 
     function renderBooks(books) {
-        booksList.innerHTML = '';
+        // Group books by series
+        const seriesGroups = {};
+        const standalones = [];
         books.forEach(book => {
-            const div = document.createElement('div');
-            div.className = 'book-item';
-            div.innerHTML = `
-          <div class="book-details">
-            <p class="book-title">${book.title}</p>
-            <p class="book-meta">Author: ${book.author} | Genre: ${book.genre || 'N/A'} | Rating: ${book.rating}/5</p>
-            <p class="book-notes">${book.notes || ''}</p>
-          </div>
-          <button class="delete-btn" data-id="${book.id}">Delete</button>
-        `;
-            booksList.appendChild(div);
+            if (book.series) {
+                const key = book.series.name;
+                if (!seriesGroups[key]) seriesGroups[key] = [];
+                seriesGroups[key].push(book);
+            } else {
+                standalones.push(book);
+            }
         });
-        attachDeleteHandlers();
+
+        booksList.innerHTML = '';
+
+        // Render series groups
+        Object.keys(seriesGroups).sort().forEach(seriesName => {
+            const h = document.createElement('div');
+            h.className = 'series-title';
+            h.textContent = seriesName;
+            booksList.appendChild(h);
+            seriesGroups[seriesName]
+                .sort((a, b) => (a.seriesOrder || 0) - (b.seriesOrder || 0))
+                .forEach(renderBookItem);
+        });
+
+        // Render standalones
+        if (standalones.length > 0) {
+            const h = document.createElement('div');
+            h.className = 'standalone-header';
+            h.textContent = 'Standalones';
+            booksList.appendChild(h);
+            standalones.sort((a, b) => a.title.localeCompare(b.title)).forEach(renderBookItem);
+        }
     }
 
-    function attachDeleteHandlers() {
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.onclick = async () => {
-                const id = btn.getAttribute('data-id');
-                await fetch(`/api/books/${id}`, { method: 'DELETE' });
-                fetchBooks();
-            };
-        });
+    function renderBookItem(book) {
+        const div = document.createElement('div');
+        div.className = 'book-item';
+        div.innerHTML = `
+        <div class="book-details">
+          <p class="book-title">${book.title}${book.seriesOrder ? ` (#${book.seriesOrder})` : ''}</p>
+          <p class="book-meta">
+            Author: ${book.author} | Genre: ${book.genre || 'N/A'} | Rating: ${book.rating}/5
+            ${book.series ? `| Series: ${book.series.name}` : ''}
+          </p>
+          <p class="book-notes">${book.notes || ''}</p>
+        </div>
+        <button class="delete-btn" data-id="${book.id}">Delete</button>
+      `;
+        booksList.appendChild(div);
+        div.querySelector('.delete-btn').onclick = async () => {
+            await fetch(`/api/books/${book.id}`, { method: 'DELETE' });
+            fetchBooks();
+        };
     }
 
     form.onsubmit = async (e) => {
@@ -157,7 +296,9 @@
             author: form.author.value.trim(),
             genre: form.genre.value.trim(),
             rating: parseInt(form.rating.value),
-            notes: form.notes.value.trim()
+            notes: form.notes.value.trim(),
+            series: seriesDropdown.value ? { id: parseInt(seriesDropdown.value) } : null,
+            seriesOrder: seriesDropdown.value ? parseInt(seriesOrderInput.value) || null : null
         };
         if (!book.title || !book.author || !book.rating) {
             alert('Please fill in required fields.');
@@ -172,8 +313,33 @@
         fetchBooks();
     };
 
+    seriesDropdown.onchange = () => {
+        if (seriesDropdown.value) {
+            seriesOrderInput.disabled = false;
+            seriesOrderInput.required = false;
+        } else {
+            seriesOrderInput.value = '';
+            seriesOrderInput.disabled = true;
+            seriesOrderInput.required = false;
+        }
+    };
+    seriesDropdown.onchange();
+
+    seriesForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('series-name').value.trim();
+        if (!name) return;
+        await fetch('/api/series', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ name })
+        });
+        seriesForm.reset();
+        fetchSeries();
+    };
+
     // Initial load
-    fetchBooks();
+    fetchSeries().then(fetchBooks);
 </script>
 </body>
 </html>
