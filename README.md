@@ -1,12 +1,13 @@
 # BookLog
 
-A Spring Boot application for logging books you’ve read, including title, author, genre, rating (out of 5), and notes. Features a web UI and a REST API.
+A Spring Boot application for logging books you’ve read, including title, author, genre, series, rating (out of 5), and notes. Features a web UI and a REST API.
 
 ## Features
 
 - Add, view, and delete books
 - Rate books out of 5
 - Add notes and genres
+- Create and Manage Book Series
 - Clean, modern web interface
 - RESTful API for integration
 
@@ -33,6 +34,12 @@ Test Endpoint: http://localhost:8080/api/hello
 - Delete book: DELETE /api/books/{id}
 
   
-<img width="1594" alt="Screenshot 2025-05-28 at 12 26 26 PM" src="https://github.com/user-attachments/assets/836c2427-189d-42ee-9eb1-5f51ed8381b8" />
+<img width="1598" alt="Screenshot 2025-05-28 at 4 11 00 PM" src="https://github.com/user-attachments/assets/37309383-d0ef-4a73-9feb-ccadcbd49d96" />
 
-<img width="1595" alt="Screenshot 2025-05-28 at 12 16 15 PM" src="https://github.com/user-attachments/assets/513de747-4a2b-4668-b1e7-75fd3f37a9df" />
+<img width="1596" alt="Screenshot 2025-05-28 at 4 17 54 PM" src="https://github.com/user-attachments/assets/96069a86-dfa7-45b4-b560-da7fdbd76963" />
+
+<img width="1596" alt="Screenshot 2025-05-28 at 4 21 37 PM" src="https://github.com/user-attachments/assets/b6027b51-0f32-41ee-b987-b594d592a349" />
+
+
+
+
