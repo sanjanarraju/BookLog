@@ -24,6 +24,9 @@ A Spring Boot application for logging books you’ve read, including title, auth
 - Build the Project: mvn clean install
 - Run using Maven: mvn spring-boot:run
 
+HTTP Page: http://localhost:8080/index.html
+Test Endpoint: http://localhost:8080/api/hello
+
 ## CRUD Operations via API
 - List books: GET /api/books
 - Add book: POST /api/books
